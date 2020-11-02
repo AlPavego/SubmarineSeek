@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:contentDescription="@string/main_bg_image"
         android:scaleType="centerCrop"
-        android:src="@drawable/depth" />
+        app:srcCompat="@drawable/depth" />
 
     <ImageView
         android:id="@+id/mainSubmarine"
@@ -24,7 +24,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="200dp"
         android:contentDescription="@string/main_image"
-        android:src="@drawable/submarine" />
+        app:srcCompat="@drawable/submarine" />
 
     <LinearLayout
         android:id="@+id/startLayout"
@@ -41,10 +41,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_stroke_press"
+            android:onClick="onClick"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="@string/start"
-            android:textSize="24sp"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="24sp" />
     </LinearLayout>
 </RelativeLayout>

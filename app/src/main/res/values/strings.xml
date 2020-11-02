@@ -3,4 +3,5 @@
     <string name="main_bg_image">mainBgImage</string>
     <string name="main_image">mainImage</string>
     <string name="start">Начать</string>
+    <string name="game_bg">game bg</string>
 </resources>
