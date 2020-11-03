@@ -23,14 +23,21 @@ class DrawField extends View {
     int[] getCellSize(int x, int y){
         int tmp_x = x;
         int tmp_y = y;
+        int[] cellSize;
+
+        if (tmp_x % tmp_y == 0 || tmp_y % tmp_x == 0){
+            cellSize = new int[]{x / (x / 8), y / (y / 8)};
+        }
+        else {
         // Нахождение НОД(x, y)
-        while (tmp_y != 0){
-            int tmp = tmp_x % tmp_y;
-            tmp_x = tmp_y;
-            tmp_y = tmp;
+            while (tmp_y != 0){
+                int tmp = tmp_x % tmp_y;
+                tmp_x = tmp_y;
+                tmp_y = tmp;
+            }
+           cellSize = new int[]{x / (x / tmp_x), y / (y / tmp_x)};
         }
         // Подгонка размера клетки под поле макс 8*10 клеток
-        int[] cellSize = {x / (x / tmp_x), y / (y / tmp_x)};
         while (x / cellSize[0] > 9 || y / cellSize[1] > 11){
             cellSize[0] += 10;
             cellSize[1] += 10;
@@ -68,9 +75,11 @@ class DrawField extends View {
 
         int fieldWidth = cellSize[0] * (width / cellSize[0]);
         int fieldHeight = cellSize[1] * (height / cellSize[1]);
+
         // Отступы по горизонтали и вертикали (padding)
         int edgeX = (width - fieldWidth) / 2;
         int edgeY = (height - fieldHeight) / 2;
+
         // Отрисовка горизонтальных линий
         for(int h = edgeY; h <= fieldHeight + edgeY; h += cellSize[1]){
             canvas.drawLine(edgeX, h, fieldWidth + edgeX, h, paint);
