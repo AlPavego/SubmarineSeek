@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, Game.class);
             startActivity(intent);
             finish();
-        } catch (Exception e){
+        } catch (Exception ignored){
 
         }
     }
