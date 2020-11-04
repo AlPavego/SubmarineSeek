@@ -8,8 +8,7 @@ import android.util.AttributeSet;
 import android.view.View;
 
 class DrawField extends View {
-    private int height;
-    private int width;
+    Field field = null;
     Paint paint = new Paint();
 
     public DrawField(Context context, AttributeSet attrs) {
@@ -20,73 +19,32 @@ class DrawField extends View {
         this(context, null);
     }
 
-    int[] getCellSize(int x, int y){
-        int tmp_x = x;
-        int tmp_y = y;
-        int[] cellSize;
-
-        if (tmp_x % tmp_y == 0 || tmp_y % tmp_x == 0){
-            cellSize = new int[]{x / (x / 8), y / (y / 8)};
-        }
-        else {
-        // Нахождение НОД(x, y)
-            while (tmp_y != 0){
-                int tmp = tmp_x % tmp_y;
-                tmp_x = tmp_y;
-                tmp_y = tmp;
-            }
-           cellSize = new int[]{x / (x / tmp_x), y / (y / tmp_x)};
-        }
-        // Подгонка размера клетки под поле макс 8*10 клеток
-        while (x / cellSize[0] > 9 || y / cellSize[1] > 11){
-            cellSize[0] += 10;
-            cellSize[1] += 10;
-        }
-        return cellSize;
-    }
-
-    @Override
-    protected void onMeasure(int widthSpecId, int heightSpecId)
-    {
-        this.height = View.MeasureSpec.getSize(heightSpecId);
-        this.width = View.MeasureSpec.getSize(widthSpecId);
-
-        setMeasuredDimension(width, height);
-    }
-
-
     @Override
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(3);
-        int[] cellSize;
 
-        // Получение размера клетки
-        if (width % 2 != 0) {
-            cellSize = getCellSize(width - 1, height);
-        }
-        else if (height % 2 != 0){
-            cellSize = getCellSize(width, height - 1);
-        }
-        else{
-            cellSize = getCellSize(width, height);
-        }
-
-        int fieldWidth = cellSize[0] * (width / cellSize[0]);
-        int fieldHeight = cellSize[1] * (height / cellSize[1]);
-
-        // Отступы по горизонтали и вертикали (padding)
-        int edgeX = (width - fieldWidth) / 2;
-        int edgeY = (height - fieldHeight) / 2;
-
-        // Отрисовка горизонтальных линий
-        for(int h = edgeY; h <= fieldHeight + edgeY; h += cellSize[1]){
-            canvas.drawLine(edgeX, h, fieldWidth + edgeX, h, paint);
-        }
-        // Отрисовка вертикальных линий
-        for(int w = edgeX; w <= fieldWidth + edgeX; w += cellSize[0]){
-            canvas.drawLine(w, edgeY, w, fieldHeight + edgeY, paint);
+        if(field != null){
+            // Отрисовка горизонтальных линий
+            for(int h = field.edgeY; h <= field.fieldHeight + field.edgeY; h += field.cellSize[1]){
+                canvas.drawLine(field.edgeX, h, field.fieldWidth + field.edgeX, h, paint);
+            }
+            // Отрисовка вертикальных линий
+            for(int w = field.edgeX; w <= field.fieldWidth + field.edgeX; w += field.cellSize[0]){
+                canvas.drawLine(w, field.edgeY, w, field.fieldHeight + field.edgeY, paint);
+            }
+            // Для тестов
+            paint.setTextSize(44);
+            for(int h = 0; h < field.content.length; h++){
+                for(int w = 0; w < field.content[h].length; w++){
+                    if(field.content[h][w]){
+                        paint.setColor(Color.GREEN);
+                    }
+                    canvas.drawText(String.valueOf(field.content[h][w]), h * field.cellSize[1] + field.edgeX + (int)(field.cellSize[0] / 4), w * field.cellSize[0] + field.edgeY + (int)(field.cellSize[1] / 2), paint);
+                    paint.setColor(Color.BLACK);
+                }
+            }
         }
     }
 }

@@ -20,6 +20,7 @@
         android:orientation="vertical">
 
         <com.example.myapplication.DrawField
+            android:id="@+id/field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
