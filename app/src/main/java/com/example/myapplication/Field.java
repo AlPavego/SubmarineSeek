@@ -2,10 +2,15 @@ package com.example.myapplication;
 
 public class Field {
     boolean[][] content;
-    int width;
-    int height;
+    boolean alive = true;
 
     int[] cellSize;
+    int[] submarine;
+    int[] emptyCell = null;
+    int distance;
+
+    int width;
+    int height;
 
     int fieldWidth;
     int fieldHeight;
@@ -17,13 +22,17 @@ public class Field {
     public Field(int width, int height) {
         this.width = width;
         this.height = height;
+
         this.cellSize = getCellSize(width, height);
         this.fieldWidth = cellSize[0] * (width / cellSize[0]);
         this.fieldHeight = cellSize[1] * (height / cellSize[1]);
+
         this.edgeX = (width - fieldWidth) / 2;
         this.edgeY = (height - fieldHeight) / 2;
+
         this.content = new boolean[fieldWidth / cellSize[0]][fieldHeight / cellSize[1]];
-        this.content[(int)(Math.random() * content.length)][(int)(Math.random() * content[0].length)] = true;
+        this.submarine = new int[]{(int)(Math.random() * content.length), (int)(Math.random() * content[0].length)};
+        this.content[submarine[0]][submarine[1]] = true;
     }
 
     int[] getCellSize(int x, int y){
@@ -55,5 +64,30 @@ public class Field {
             cellSize[1] += 10;
         }
         return cellSize;
+    }
+
+    int[] getCell(float x, float y){
+        int cX = (int)((x - edgeX) / cellSize[0]);
+        int cY = (int)((y - edgeY) / cellSize[1]);
+
+        return new int[]{cX, cY};
+    }
+
+    void click(float x, float y){
+        if (x >= edgeX && x <= width - edgeX && y >= edgeY && y <= height - edgeY){
+            int[] cell = getCell(x, y);
+            if (content[cell[0]][cell[1]]){
+                alive = false;
+                emptyCell = null;
+            }
+            else{
+                emptyCell = cell;
+                distance = Math.abs(cell[0] - submarine[0]) + Math.abs(cell[1] - submarine[1]) - 1;
+            }
+        }
+        else{
+            emptyCell = null;
+            distance = 0;
+        }
     }
 }
