@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +13,7 @@ import android.view.View;
 class DrawField extends View {
     Field field = null;
     Paint paint = new Paint();
+    Bitmap submarine;
 
     public DrawField(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,12 +59,25 @@ class DrawField extends View {
             // Вывод растояния до подлодки
             if (field.emptyCell != null) {
                 if (field.distance > 9) {
-                    canvas.drawText(String.valueOf(field.distance), field.cellSize[0] * field.emptyCell[0] + field.edgeX + (int) (field.cellSize[0] * 0.19), field.cellSize[1] * field.emptyCell[1] + field.edgeY + (int) (field.cellSize[1] * 0.67), paint);
+                    canvas.drawText(String.valueOf(field.distance), field.cellSize[0] * field.emptyCell[0] + field.edgeX + (int)(field.cellSize[0] * 0.19), field.cellSize[1] * field.emptyCell[1] + field.edgeY + (int) (field.cellSize[1] * 0.67), paint);
                 }
                 else {
                     canvas.drawText(String.valueOf(field.distance), field.cellSize[0] * field.emptyCell[0] + field.edgeX + (int)(field.cellSize[0] * 0.35), field.cellSize[1] * field.emptyCell[1] + field.edgeY + (int)(field.cellSize[1] * 0.67), paint);
                 }
             }
+            if (!field.alive){
+                canvas.drawBitmap(submarine, field.cellSize[0] * field.submarine[0] + field.edgeX + (int)(field.cellSize[0] * 0.1 / 2), field.cellSize[1] * field.submarine[1] + field.edgeY + (int)(field.cellSize[1] * 0.1 / 2), paint);
+            }
         }
+    }
+
+    void setField(Field field){
+        this.field = field;
+        loadSubmarine();
+    }
+
+    void loadSubmarine(){
+        submarine = BitmapFactory.decodeResource(getResources(), R.drawable.submarine);
+        submarine = Bitmap.createScaledBitmap(submarine, (int)(field.cellSize[0] * 0.9), (int)(field.cellSize[1] * 0.9), false);
     }
 }

@@ -29,7 +29,7 @@ public class Game extends AppCompatActivity implements View.OnTouchListener {
 
         field = new Field(metricsB.widthPixels, metricsB.heightPixels);
         drawField = findViewById(R.id.field);
-        drawField.field = field;
+        drawField.setField(field);
         drawField.setOnTouchListener(this);
     }
 
