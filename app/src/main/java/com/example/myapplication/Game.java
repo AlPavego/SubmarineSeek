@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -33,9 +35,10 @@ public class Game extends AppCompatActivity implements View.OnTouchListener {
         drawField.setOnTouchListener(this);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouch(View v, MotionEvent event){
-        field.click(event.getX(), event.getY());
+        drawField.performClick(event.getX(), event.getY());
         drawField.invalidate();
         return true;
     }
