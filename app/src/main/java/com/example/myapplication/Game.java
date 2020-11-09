@@ -3,6 +3,8 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -40,6 +42,10 @@ public class Game extends AppCompatActivity implements View.OnTouchListener {
     public boolean onTouch(View v, MotionEvent event){
         drawField.performClick(event.getX(), event.getY());
         drawField.invalidate();
+        if (!drawField.alive) {
+            AlertDialog dialog = DialogScreen.getDialog(this);
+            dialog.show();
+        }
         return true;
     }
 }

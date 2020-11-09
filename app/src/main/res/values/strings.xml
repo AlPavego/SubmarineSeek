@@ -4,4 +4,7 @@
     <string name="main_image">mainImage</string>
     <string name="start">Начать</string>
     <string name="game_bg">game bg</string>
+    <string name="win_message">Подлодка найдена, хотите вернуться в главное меню?</string>
+    <string name="win_yes">Да</string>
+    <string name="win_no">Нет</string>
 </resources>

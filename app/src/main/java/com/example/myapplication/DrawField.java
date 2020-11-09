@@ -51,6 +51,7 @@ class DrawField extends View {
             if (!alive){
                 drawSubmarine(canvas);
             }
+            drawTest(canvas);
         }
     }
     
